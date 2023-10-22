@@ -1,0 +1,25 @@
+{
+    "books": [
+        {
+            "title": "The Story of Art",
+            "author_1": "E.H. Gombrich",
+	    "author_2": "",
+            "attribute_1": "Classic",
+            "attribute_2": "Comprehensive"
+        },
+        {
+            "title": "Ways of Seeing",
+	    "author_1": "John Berger",
+	    "author_2": "",
+            "attribute_1": "Iconic",
+            "attribute_2": "Thought-Provoking"
+        },
+        {
+            "title": "Art Through the Ages",
+	    "author_1": "Helen Gardner",
+	    "author_2": "Fred S. Kleiner",
+            "attribute_1": "In-depth",
+            "attribute_2": "Educational"
+        }
+    ]
+}

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<books>
+    <book>
+        <title>The Story of Art</title>
+        <author_1>E.H. Gombrich</author_1>
+        <author_2></author_2>
+        <attribute_1>Classic</attribute_1>
+        <attribute_2>Comprehensive</attribute_2>
+    </book>
+    <book>
+        <title>Ways of Seeing</title>
+        <author_1>John Berger</author_1>
+        <author_2></author_2>
+        <attribute_1>Iconic</attribute_1>
+        <attribute_2>Thought-Provoking</attribute_2>
+    </book>
+    <book>
+        <title>Art Through the Ages</title>
+        <author_1>Helen Gardner</author_1>
+        <author_2>Fred S. Kleiner</author_2>
+        <attribute_1>In-depth</attribute_1>
+        <attribute_2>Educational</attribute_2>
+    </book>
+</books>
