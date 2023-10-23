@@ -1,0 +1,119 @@
+---
+title: "Working with XML and JSON in R"
+author: "Fomba Kassoh"
+date: "2023-10-21"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+#3: Generate the html data frame
+
+```{r read html html}
+# Install and load the required packages
+library(XML)
+library(xml2)
+library(jsonlite)
+library(rvest)
+library(httr)
+
+books_html <- "https://raw.githubusercontent.com/hawa1983/WK7Assignment/main/books.html"
+html_df <- books_html %>% 
+  read_html() %>%
+  html_table(fill = TRUE) %>%
+  .[[1]]
+
+html_df[html_df == ""] <- NA
+
+html_df
+
+```
+
+#2: Generate the xml data frame
+
+```{r read xml}
+# Install and load the required packages
+library(XML)
+library(jsonlite)
+library(rvest)
+library(httr)
+
+
+# Fetching the content, also you can access this xml text file directly on the web by clicking on the link below.
+books_xml <- GET("https://raw.githubusercontent.com/hawa1983/WK7Assignment/main/books.xml")
+
+# Ensuring the request was successful
+if (http_status(books_xml)$category == "Success") {
+   FBooksXml1 <- xmlParse(content(books_xml, as = "text", encoding = "UTF-8"))
+  
+} else {
+  stop("Failed to fetch the XML from GitHub.")
+}
+
+# Extracting book nodes
+FBooksXml2 <- getNodeSet(FBooksXml1, "//book")
+
+# Function to parse each book
+parseBook <- function(book) {
+  
+  title <- xpathSApply(book, "./title", xmlValue)
+  
+  author_1 <- xpathSApply(book, "./author_1", xmlValue)
+  author_2 <- xpathSApply(book, "./author_2", xmlValue)
+  author_3 <- xpathSApply(book, "./author_3", xmlValue)
+  
+  attribute_1 <- xpathSApply(book, "./attribute_1", xmlValue)
+  attribute_2 <- xpathSApply(book, "./attribute_2", xmlValue)
+  attribute_3 <- xpathSApply(book, "./attribute_3", xmlValue)
+  
+  data.frame(
+    title = ifelse(length(title) > 0, title, NA),
+    author_1 = ifelse(length(author_1) > 0, author_1, NA),
+    author_2 = ifelse(length(author_2) > 0, author_2, NA),
+    author_3 = ifelse(length(author_3) > 0, author_3, NA),
+    attribute_1 = ifelse(length(attribute_1) > 0, attribute_1, NA),
+    attribute_2 = ifelse(length(attribute_2) > 0, attribute_2, NA),
+    attribute_3 = ifelse(length(attribute_3) > 0, attribute_3, NA),
+    stringsAsFactors = FALSE
+  )
+}
+
+FBooksXml3 <- lapply(FBooksXml2, parseBook)
+FBooksXml4 <- do.call(rbind, FBooksXml3)
+
+FBooksXml4[FBooksXml4 == ""] <- NA
+FBooksXml4
+```
+
+
+#3: Generate the json data frame
+```{r read json}
+# Install and load the required packages
+library(XML)
+library(jsonlite)
+library(rvest)
+library(httr)
+library(tidyverse)
+library(dplyr)
+
+# Load data from JSON
+
+# Load JSON data into an R data frame
+json_data <- fromJSON("https://raw.githubusercontent.com/hawa1983/WK7Assignment/main/books.json")
+json_df <- as.data.frame(json_data)
+json_df[json_df == ""] <- NA
+
+json_df
+```
+
+#4: The raw data and data types in the data frame are the same but the data frames are not identical
+```{r compare data frames}
+# Check if the data frames are identical
+identical(html_df, FBooksXml4)
+identical(html_df, json_df)
+identical(FBooksXml4, json_df)
+```
+
+
